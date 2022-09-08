@@ -1,0 +1,143 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --cell-size: 100px;
+    --mark-size: calc(var(--cell-size)* .9);
+}
+
+body {
+    margin: 0;
+}
+
+.board {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    align-items: center;
+    grid-template-columns: repeat(3, auto);
+}
+
+.cell {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    /*background-color: #ccc;*/
+    border: 1px solid #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.cell:first-child,
+.cell:nth-child(2),
+.cell:nth-child(3) {
+    border-top: none;
+}
+
+.cell:nth-child(3n+1) {
+    border-left: none;
+}
+
+.cell:nth-child(3n+3) {
+    border-right: none;
+}
+
+.cell:last-child,
+.cell:nth-last-child(2),
+.cell:nth-last-child(3) {
+    border-bottom: none;
+}
+
+.cell.x,
+.cell.o {
+    cursor: pointer;
+}
+
+.board.x .cell:not(.x):not(.o):hover::before,
+.board.x .cell:not(.x):not(.o):hover::after {
+    background: #ccc!important;
+}
+
+
+/* x Style*/
+
+.cell.x::before,
+.cell.x::after,
+.board.x .cell:not(.x):not(.o):hover::before,
+.board.x .cell:not(.x):not(.o):hover::after {
+    content: '';
+    width: calc(var(--mark-size)* .2);
+    height: var(--mark-size);
+    background: #000;
+    position: absolute;
+}
+
+.cell.x:before,
+.board.x .cell:hover::before {
+    transform: rotate(45deg);
+}
+
+.cell.x:after,
+.board.x .cell:hover::after {
+    transform: rotate(-45deg);
+}
+
+
+/* o Style*/
+
+.cell.o:before,
+.cell.o:after,
+.board.o .cell:not(.x):not(.o):hover::after {
+    content: '';
+    width: calc(var(--mark-size)*.9);
+    height: calc(var(--mark-size)*.9);
+    border: calc(var(--mark-size)*.18) solid #000;
+    border-radius: 50%;
+    background: #fff;
+    position: absolute;
+}
+
+.board.o .cell:not(.x):not(.o):hover::after {
+    border: calc(var(--mark-size)*.18) solid #ccc!important;
+}
+
+.winning-message {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    background: rgba(0, 0, 0, .8);
+    font-size: 4rem;
+}
+
+.winning-message button {
+    font-size: 2rem;
+    color: #000;
+    background: #fff;
+    border: none;
+    padding: .25em 1em;
+    cursor: pointer;
+}
+
+.winning-message button:hover {
+    color: #fff;
+    background: #111;
+}
+
+.winning-message.show {
+    display: flex;
+}
